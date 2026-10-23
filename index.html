@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Primary Meta Tags -->
+  <title>Nova Explorer — The Ultra-Fast Dual-Pane Desktop File Manager</title>
+  <meta name="title" content="Nova Explorer — The Ultra-Fast Dual-Pane Desktop File Manager">
+  <meta name="description" content="Nova Explorer is a lightweight, high-performance desktop file manager built with Rust and React 19. Features dual-pane navigation, instant QuickLook previews, super file transfers with conflict resolution, and Miller columns in a 3.15 MB native installer.">
+  <meta name="keywords" content="file manager, dual pane explorer, tauri file explorer, rust file manager, windows file manager alternative, quicklook windows, miller columns file manager">
+  <meta name="author" content="Amir Hameed">
+  <meta name="theme-color" content="#060911">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://github.com/picwellwisher12pk/nova-explorer">
+  <meta property="og:title" content="Nova Explorer — The Ultra-Fast Dual-Pane Desktop File Manager">
+  <meta property="og:description" content="Modern desktop file manager with Rust multithreaded directory engine, instant spacebar previews, and dual-pane productivity.">
+  <meta property="og:image" content="assets/logo.svg">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="Nova Explorer — The Ultra-Fast Dual-Pane Desktop File Manager">
+  <meta property="twitter:description" content="Modern desktop file manager with Rust multithreaded directory engine, instant spacebar previews, and dual-pane productivity.">
+  <meta property="twitter:image" content="assets/logo.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  
+  <!-- Design System -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Sticky Site Navigation -->
+  <header class="site-header">
+    <div class="container-wide header-inner">
+      <a href="#" class="logo-group" id="nav-brand-logo">
+        <img src="assets/logo.svg" alt="Nova Explorer Logo" class="logo-icon" width="32" height="32">
+        <span class="brand-text">
+          Nova Explorer
+          <span class="version-badge" id="header-version-pill">v0.14.0</span>
+        </span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="#features" class="nav-link">Features</a></li>
+          <li><a href="#showcase" class="nav-link">Interactive Demo</a></li>
+          <li><a href="#benchmarks" class="nav-link">Benchmarks</a></li>
+          <li><a href="#shortcuts" class="nav-link">Shortcuts</a></li>
+          <li><a href="#architecture" class="nav-link">Architecture</a></li>
+          <li><a href="#downloads" class="nav-link">Downloads</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Theme Toggle -->
+        <button class="theme-toggle-btn" id="theme-toggle-btn" aria-label="Toggle Dark/Light Mode" title="Toggle Theme">
+          <svg class="sun-icon" style="display:none;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+          </svg>
+          <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+          </svg>
+        </button>
+
+        <!-- GitHub Link -->
+        <a href="https://github.com/picwellwisher12pk/nova-explorer-app" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-secondary" id="nav-github-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/>
+          </svg>
+          GitHub
+        </a>
+
+        <!-- Main CTA -->
+        <a href="#downloads" class="btn btn-sm btn-primary" id="nav-download-cta">
+          Download
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section" id="hero">
+    <div class="container">
+      <a href="#architecture" class="announcement-chip" id="hero-chip">
+        <span class="pulse-dot"></span>
+        <span>Version 0.14.0 Released — Powered by Tauri v2 & Rust</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"/>
+        </svg>
+      </a>
+
+      <h1 class="hero-title">
+        The ultra-fast, dual-pane desktop file manager <span class="gradient-text">for power users.</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Engineered with Rust and React 19. Parallel folder scanning, instant spacebar QuickLook, live transfer conflict resolution, and Miller columns — packaged into a lean <strong>3.15 MB native installer</strong> with zero telemetry.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="downloads/nova-explorer-setup.exe" download="nova-explorer-setup.exe" class="btn btn-lg btn-primary" id="hero-primary-download">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/>
+          </svg>
+          Download for Windows (.exe)
+        </a>
+
+        <button class="btn btn-lg btn-secondary" id="hero-open-cheatsheet-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 9 6 6"/><path d="m15 9-6 6"/>
+          </svg>
+          Interactive Cheatsheet
+        </button>
+      </div>
+
+      <div class="terminal-install-bar">
+        <span class="terminal-prompt">$</span>
+        <span class="cmd-text" id="install-cmd-text">winget install picwellwisher12pk.nova-explorer</span>
+        <button class="copy-cmd-btn" id="copy-cmd-btn" title="Copy to clipboard" aria-label="Copy command">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Metrics Bar -->
+  <section class="container">
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-number">&lt; 12ms</div>
+        <div class="metric-label">Cold Start Launch</div>
+        <div class="metric-sub">Parallel cached initialization</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number">3.15 MB</div>
+        <div class="metric-label">Native Installer</div>
+        <div class="metric-sub">Zero Electron / No Node runtime</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number">100k+</div>
+        <div class="metric-label">Virtualized Files</div>
+        <div class="metric-sub">Locked 60 FPS viewport rendering</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number">0 KB</div>
+        <div class="metric-label">Telemetry & Trackers</div>
+        <div class="metric-sub">100% offline, local-first privacy</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Hero Product Showcase (Interactive Replica) -->
+  <section class="container showcase-container" id="showcase">
+    <div class="showcase-toolbar">
+      <div class="showcase-mode-pills" id="mode-pills">
+        <button class="mode-pill active" data-mode="dual-pane" id="pill-dual-pane">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="18" x="3" y="3" rx="2"/><path d="M12 3v18"/>
+          </svg>
+          Dual-Pane (Ctrl + \)
+        </button>
+        <button class="mode-pill" data-mode="miller" id="pill-miller">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="M15 3v18"/>
+          </svg>
+          Miller Columns
+        </button>
+        <button class="mode-pill" data-mode="transfer" id="pill-transfer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+          </svg>
+          Super Transfer Engine
+        </button>
+        <button class="mode-pill" data-mode="quicklook" id="pill-quicklook">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+          QuickLook Preview (Space)
+        </button>
+      </div>
+
+      <div class="showcase-mock-controls">
+        <button class="btn btn-sm btn-secondary" id="toggle-mockup-theme" title="Toggle Preview Theme">
+          Toggle Theme
+        </button>
+      </div>
+    </div>
+
+    <!-- The Window Frame -->
+    <div class="mockup-window" id="mockup-window">
+      <!-- Titlebar -->
+      <div class="mockup-titlebar">
+        <div class="mockup-traffic-lights">
+          <span class="traffic-light close"></span>
+          <span class="traffic-light min"></span>
+          <span class="traffic-light max"></span>
+        </div>
+
+        <div class="mockup-tabs">
+          <div class="mockup-tab active" id="tab-1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>
+            <span>nova-explorer</span>
+          </div>
+          <div class="mockup-tab" id="tab-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>
+            <span>Release-Artifacts</span>
+          </div>
+        </div>
+
+        <div class="mockup-actions">
+          <button class="mockup-action-btn" title="Split View">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M12 3v18"/></svg>
+          </button>
+          <button class="mockup-action-btn" title="Settings">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mockup Body -->
+      <div class="mockup-body">
+        <!-- Sidebar -->
+        <aside class="mockup-sidebar">
+          <div>
+            <div class="sidebar-section-title">Quick Links</div>
+            <ul class="sidebar-list">
+              <li class="sidebar-item active">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                <span>Projects</span>
+              </li>
+              <li class="sidebar-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                <span>Downloads</span>
+              </li>
+              <li class="sidebar-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/></svg>
+                <span>Documents</span>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="sidebar-section-title">Drives & Diagnostics</div>
+            <ul class="sidebar-list">
+              <li class="sidebar-item" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+                <div style="display: flex; justify-content: space-between; width: 100%; font-size: 0.8rem;">
+                  <span>System (C:)</span>
+                  <span style="color: var(--text-muted); font-size: 0.72rem;">242 GB free</span>
+                </div>
+                <div class="drive-bar-mini">
+                  <div class="drive-bar-fill" style="width: 62%;"></div>
+                </div>
+              </li>
+              <li class="sidebar-item" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+                <div style="display: flex; justify-content: space-between; width: 100%; font-size: 0.8rem;">
+                  <span>Data NVMe (D:)</span>
+                  <span style="color: var(--text-muted); font-size: 0.72rem;">890 GB free</span>
+                </div>
+                <div class="drive-bar-mini">
+                  <div class="drive-bar-fill" style="width: 28%; background: var(--accent-emerald);"></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </aside>
+
+        <!-- Main Viewport -->
+        <main class="mockup-main">
+          <!-- Address & Search Bar -->
+          <div class="mockup-addressbar">
+            <div class="breadcrumbs">
+              <span class="crumb">C:</span>
+              <span>/</span>
+              <span class="crumb">Projects</span>
+              <span>/</span>
+              <span class="crumb crumb-active" id="mockup-active-folder">nova-explorer</span>
+            </div>
+
+            <input type="text" class="mockup-search-input" id="mock-search-input" placeholder="Search (Ctrl + F)..." aria-label="Filter files">
+          </div>
+
+          <!-- Panes Container -->
+          <div class="mockup-panes-grid" id="panes-container">
+            <!-- Left Pane -->
+            <div class="mockup-pane">
+              <div class="pane-header-strip">
+                <span>Active: C:\Projects\nova-explorer</span>
+                <span>8 items</span>
+              </div>
+              <table class="file-table" id="left-file-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Size</th>
+                    <th>Modified</th>
+                  </tr>
+                </thead>
+                <tbody id="mockup-file-rows">
+                  <tr class="file-row" data-name="src-tauri" data-type="dir">
+                    <td class="file-name-cell">
+                      <svg class="file-icon" style="color: var(--accent-cyan);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>
+                      <span>src-tauri</span>
+                    </td>
+                    <td>—</td>
+                    <td>Today, 4:32 PM</td>
+                  </tr>
+                  <tr class="file-row" data-name="src" data-type="dir">
+                    <td class="file-name-cell">
+                      <svg class="file-icon" style="color: var(--accent-cyan);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>
+                      <span>src</span>
+                    </td>
+                    <td>—</td>
+                    <td>Today, 4:35 PM</td>
+                  </tr>
+                  <tr class="file-row selected" data-name="Cargo.toml" data-type="file" data-snippet="[package]&#10;name = &quot;nova-explorer&quot;&#10;version = &quot;0.14.0&quot;&#10;edition = &quot;2021&quot;&#10;&#10;[dependencies]&#10;tauri = { version = &quot;2.0.0&quot; }&#10;rayon = &quot;1.10&quot;">
+                    <td class="file-name-cell">
+                      <svg class="file-icon" style="color: var(--accent-amber);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/></svg>
+                      <span>Cargo.toml</span>
+                    </td>
+                    <td>1.4 KB</td>
+                    <td>Today, 4:40 PM</td>
+                  </tr>
+                  <tr class="file-row" data-name="package.json" data-type="file" data-snippet="{&#10;  &quot;name&quot;: &quot;nova-explorer&quot;,&#10;  &quot;version&quot;: &quot;0.14.0&quot;,&#10;  &quot;private&quot;: true&#10;}">
+                    <td class="file-name-cell">
+                      <svg class="file-icon" style="color: var(--accent-emerald);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/></svg>
+                      <span>package.json</span>
+                    </td>
+                    <td>1.2 KB</td>
+                    <td>Today, 4:47 PM</td>
+                  </tr>
+                  <tr class="file-row" data-name="app-icon.svg" data-type="file" data-snippet="&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 512 512&quot;&gt;&#10;  &lt;rect fill=&quot;url(#nova-grad)&quot; /&gt;&#10;&lt;/svg&gt;">
+                    <td class="file-name-cell">
+                      <svg class="file-icon" style="color: #ec4899;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                      <span>app-icon.svg</span>
+                    </td>
+                    <td>923 B</td>
+                    <td>Today, 4:41 PM</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Right Pane -->
+            <div class="mockup-pane" id="right-pane-view">
+              <div class="pane-header-strip">
+                <span>Target: D:\Backups\2026-Release</span>
+                <span>Synchronized</span>
+              </div>
+              <table class="file-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Size</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="file-row">
+                    <td class="file-name-cell">
+                      <svg class="file-icon" style="color: var(--accent-emerald);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                      <span>nova-explorer_0.14.0_x64-setup.exe</span>
+                    </td>
+                    <td>3.15 MB</td>
+                    <td style="color: var(--accent-emerald);">Ready</td>
+                  </tr>
+                  <tr class="file-row">
+                    <td class="file-name-cell">
+                      <svg class="file-icon" style="color: var(--accent-emerald);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                      <span>nova-explorer_0.14.0_x64_en-US.msi</span>
+                    </td>
+                    <td>5.38 MB</td>
+                    <td style="color: var(--accent-emerald);">Ready</td>
+                  </tr>
+                  <tr class="file-row">
+                    <td class="file-name-cell">
+                      <svg class="file-icon" style="color: var(--accent-cyan);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/></svg>
+                      <span>SHA256SUMS.txt</span>
+                    </td>
+                    <td>182 B</td>
+                    <td>Verified</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Status Bar -->
+          <footer class="mockup-statusbar">
+            <span>Selected: Cargo.toml (1.4 KB)</span>
+            <span>UTF-8 | 60 FPS Virtualized</span>
+            <span>Split Mode Active</span>
+          </footer>
+        </main>
+      </div>
+    </div>
+  </section>
+
+  <!-- Engineering Features Section -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Engineered For Performance</span>
+        <h2 class="section-title">Built like a compiler, designed like high-end hardware.</h2>
+        <p class="section-desc">
+          Most file managers are bogged down by web runtimes or decades-old legacy code. Nova Explorer was written from scratch to give power users immediate feedback with uncompromised ergonomics.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <!-- Feature 1: Featured -->
+        <article class="feature-card featured-card">
+          <div class="feature-icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m13 2-2 2.5V8l3 3-5 5v5.5L7 22"/><path d="M11 8 3 3"/><path d="m21 21-8-8"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Multithreaded Rust Core Engine</h3>
+          <p class="feature-desc">
+            Directly calls Windows kernel APIs through multithreaded Rust worker pools. Directory listings with 100,000+ files load without blocking the main event loop, utilizing zero-copy metadata streaming.
+          </p>
+          <ul class="feature-spec-list">
+            <li class="spec-item"><span class="spec-check">✓</span> <span>Rayon threadpool parallel directory scanner</span></li>
+            <li class="spec-item"><span class="spec-check">✓</span> <span>Instant parallel cold starts via cached index snapshots</span></li>
+            <li class="spec-item"><span class="spec-check">✓</span> <span>Virtual DOM pagination powered by TanStack Virtual</span></li>
+          </ul>
+        </article>
+
+        <!-- Feature 2 -->
+        <article class="feature-card">
+          <div class="feature-icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="18" height="18" x="3" y="3" rx="2"/><path d="M12 3v18"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">True Dual-Pane & Miller Columns</h3>
+          <p class="feature-desc">
+            Side-by-side synchronized explorer panes let you organize, compare, and drag-and-drop between directories in a single unified window.
+          </p>
+          <ul class="feature-spec-list">
+            <li class="spec-item"><span class="spec-check">✓</span> <span>Hotkey toggle with <kbd>Ctrl</kbd> + <kbd>\</kbd></span></li>
+            <li class="spec-item"><span class="spec-check">✓</span> <span>Miller Columns hierarchical drill-down</span></li>
+          </ul>
+        </article>
+
+        <!-- Feature 3 -->
+        <article class="feature-card">
+          <div class="feature-icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Super File Transfer System</h3>
+          <p class="feature-desc">
+            Never lose progress to random overwrite prompts. Asynchronous background queue with live transfer speed, ETA calculation, and batch conflict resolution.
+          </p>
+          <ul class="feature-spec-list">
+            <li class="spec-item"><span class="spec-check">✓</span> <span>Interactive conflict dialogs: Auto Rename, Skip, Overwrite</span></li>
+            <li class="spec-item"><span class="spec-check">✓</span> <span>Real-time byte-level throughput charts</span></li>
+          </ul>
+        </article>
+
+        <!-- Feature 4 -->
+        <article class="feature-card">
+          <div class="feature-icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Instant Spacebar QuickLook</h3>
+          <p class="feature-desc">
+            Inspect images, code, Markdown, PDFs, and video files in milliseconds by tapping <kbd>Space</kbd> without waiting for heavy external apps.
+          </p>
+          <ul class="feature-spec-list">
+            <li class="spec-item"><span class="spec-check">✓</span> <span>Syntax highlighted code previews</span></li>
+            <li class="spec-item"><span class="spec-check">✓</span> <span>Image metadata, EXIF & SHA256 checksum inspector</span></li>
+          </ul>
+        </article>
+
+        <!-- Feature 5 -->
+        <article class="feature-card">
+          <div class="feature-icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Strict Local-First Privacy</h3>
+          <p class="feature-desc">
+            Zero telemetry. No cloud account logins, no telemetry endpoints, and no background metric scraping. Your files and paths never leave your local machine.
+          </p>
+          <ul class="feature-spec-list">
+            <li class="spec-item"><span class="spec-check">✓</span> <span>100% offline capable</span></li>
+            <li class="spec-item"><span class="spec-check">✓</span> <span>Open source codebase on GitHub</span></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benchmark Comparison Section -->
+  <section class="section" id="benchmarks" style="background: var(--bg-card);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Empirical Data</span>
+        <h2 class="section-title">Measurably faster across every dimension.</h2>
+        <p class="section-desc">
+          Compare the real resource requirements and latency numbers of Nova Explorer against legacy tools.
+        </p>
+      </div>
+
+      <div class="benchmark-card">
+        <table class="benchmark-table">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th class="highlight-col">Nova Explorer (v0.14.0)</th>
+              <th>Windows 11 Explorer</th>
+              <th>Directory Opus</th>
+              <th>Total Commander</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Cold Launch Latency</strong></td>
+              <td class="highlight-col"><span class="benchmark-badge-win">⚡ &lt; 12 ms</span></td>
+              <td>~650 ms</td>
+              <td>~420 ms</td>
+              <td>~120 ms</td>
+            </tr>
+            <tr>
+              <td><strong>Installer Package Size</strong></td>
+              <td class="highlight-col"><span class="benchmark-badge-win">📦 3.15 MB (NSIS)</span></td>
+              <td>Pre-installed (OS Core)</td>
+              <td>~58 MB</td>
+              <td>~9.2 MB</td>
+            </tr>
+            <tr>
+              <td><strong>Memory Footprint (Idle)</strong></td>
+              <td class="highlight-col"><span class="benchmark-badge-win">38 MB RAM</span></td>
+              <td>160 MB – 320 MB</td>
+              <td>90 MB – 140 MB</td>
+              <td>45 MB</td>
+            </tr>
+            <tr>
+              <td><strong>100,000 File Directory List</strong></td>
+              <td class="highlight-col"><span class="benchmark-badge-win">Instant Virtualized (60 FPS)</span></td>
+              <td>Freezes / 4-8s spinner</td>
+              <td>Fast with indexing</td>
+              <td>Fast with text table</td>
+            </tr>
+            <tr>
+              <td><strong>Built-in Spacebar QuickLook</strong></td>
+              <td class="highlight-col"><span class="benchmark-badge-win">✓ Built-in Native</span></td>
+              <td>Requires PowerToys add-on</td>
+              <td>Plugin required</td>
+              <td>Lister plugin</td>
+            </tr>
+            <tr>
+              <td><strong>Modern Light & Dark Engine</strong></td>
+              <td class="highlight-col"><span class="benchmark-badge-win">✓ Custom High-Contrast</span></td>
+              <td>Partial dark mode bugs</td>
+              <td>Custom skins</td>
+              <td>Win95-era interface</td>
+            </tr>
+            <tr>
+              <td><strong>Background Telemetry</strong></td>
+              <td class="highlight-col"><span class="benchmark-badge-win">Zero (0 KB)</span></td>
+              <td>Extensive Windows diagnostics</td>
+              <td>License server polling</td>
+              <td>License checks</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Keyboard Shortcuts Matrix -->
+  <section class="section" id="shortcuts">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Ergonomics</span>
+        <h2 class="section-title">Keep your hands on the keyboard.</h2>
+        <p class="section-desc">
+          Every critical workflow can be executed with single or dual-key strokes.
+        </p>
+      </div>
+
+      <div class="shortcut-filter-group" id="shortcut-filters">
+        <button class="shortcut-filter-btn active" data-category="all">All Shortcuts</button>
+        <button class="shortcut-filter-btn" data-category="nav">Navigation</button>
+        <button class="shortcut-filter-btn" data-category="ops">File Ops</button>
+        <button class="shortcut-filter-btn" data-category="view">Views</button>
+      </div>
+
+      <div class="shortcuts-grid" id="shortcuts-grid">
+        <div class="shortcut-item" data-cat="view">
+          <span class="shortcut-label">Toggle Dual-Pane Split</span>
+          <div class="shortcut-keys"><kbd>Ctrl</kbd><kbd>\</kbd></div>
+        </div>
+        <div class="shortcut-item" data-cat="ops">
+          <span class="shortcut-label">Instant QuickLook Preview</span>
+          <div class="shortcut-keys"><kbd>Space</kbd></div>
+        </div>
+        <div class="shortcut-item" data-cat="nav">
+          <span class="shortcut-label">Fast Search Files</span>
+          <div class="shortcut-keys"><kbd>Ctrl</kbd><kbd>P</kbd></div>
+        </div>
+        <div class="shortcut-item" data-cat="nav">
+          <span class="shortcut-label">New Explorer Tab</span>
+          <div class="shortcut-keys"><kbd>Ctrl</kbd><kbd>T</kbd></div>
+        </div>
+        <div class="shortcut-item" data-cat="nav">
+          <span class="shortcut-label">Close Current Tab</span>
+          <div class="shortcut-keys"><kbd>Ctrl</kbd><kbd>W</kbd></div>
+        </div>
+        <div class="shortcut-item" data-cat="ops">
+          <span class="shortcut-label">In-place Batch Rename</span>
+          <div class="shortcut-keys"><kbd>F2</kbd></div>
+        </div>
+        <div class="shortcut-item" data-cat="ops">
+          <span class="shortcut-label">Move to Recycle Bin</span>
+          <div class="shortcut-keys"><kbd>Delete</kbd></div>
+        </div>
+        <div class="shortcut-item" data-cat="ops">
+          <span class="shortcut-label">Deep Properties & Hashes</span>
+          <div class="shortcut-keys"><kbd>Alt</kbd><kbd>Enter</kbd></div>
+        </div>
+        <div class="shortcut-item" data-cat="view">
+          <span class="shortcut-label">Toggle Light / Dark Mode</span>
+          <div class="shortcut-keys"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>D</kbd></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture & Tech Stack -->
+  <section class="section" id="architecture" style="background: var(--bg-card);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Modern Stack</span>
+        <h2 class="section-title">Built with state-of-the-art systems programming.</h2>
+        <p class="section-desc">
+          How Nova Explorer delivers instant responses without the memory overhead of Chromium web apps.
+        </p>
+      </div>
+
+      <div class="arch-grid">
+        <div class="arch-box">
+          <div class="arch-tag">Core Backend</div>
+          <div class="arch-name">Rust 2021 & Tauri v2</div>
+          <p class="arch-detail">
+            Native Windows Win32 bindings and Webview2 runtime sharing eliminate the need to bundle redundant 150MB Chromium browsers.
+          </p>
+        </div>
+
+        <div class="arch-box">
+          <div class="arch-tag">Concurrency</div>
+          <div class="arch-name">Rayon & Sysinfo</div>
+          <p class="arch-detail">
+            Non-blocking disk reads, parallel checksum generation, and real-time disk drive telemetry computed asynchronously.
+          </p>
+        </div>
+
+        <div class="arch-box">
+          <div class="arch-tag">User Interface</div>
+          <div class="arch-name">React 19 & Vite 8</div>
+          <p class="arch-detail">
+            Concurrent React 19 rendering with transitions guarantees 60 FPS scrolling even during intensive disk transfer operations.
+          </p>
+        </div>
+
+        <div class="arch-box">
+          <div class="arch-tag">DOM Optimization</div>
+          <div class="arch-name">TanStack Virtual</div>
+          <p class="arch-detail">
+            Dynamic viewport virtualization renders only visible rows, guaranteeing fixed minimal DOM memory usage.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Downloads Section -->
+  <section class="section" id="downloads">
+    <div class="container">
+      <div class="downloads-wrapper">
+        <span class="section-tag">Get Started</span>
+        <h2 class="section-title">Ready for lightning-fast file management?</h2>
+        <p class="section-desc" style="max-width: 600px; margin: 0 auto;">
+          Download the latest release for Windows. Free, open source, and ready in seconds.
+        </p>
+
+        <div class="download-options-grid">
+          <!-- NSIS Installer -->
+          <div class="download-card primary-installer">
+            <span class="download-badge">Recommended</span>
+            <h3 class="download-title">NSIS Setup (.exe)</h3>
+            <div class="download-fileinfo">v0.14.0 · x64 · 3.15 MB</div>
+            <p class="download-card-desc">
+              Automatic lightweight desktop and start-menu installer with clean uninstallation support.
+            </p>
+            <a href="downloads/nova-explorer-setup.exe" download="nova-explorer-setup.exe" class="btn btn-primary" id="btn-dl-nsis">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              Download Setup (.exe)
+            </a>
+          </div>
+
+          <!-- MSI Installer -->
+          <div class="download-card">
+            <span class="download-badge" style="background: rgba(99, 102, 241, 0.1); color: var(--accent-indigo);">Enterprise</span>
+            <h3 class="download-title">MSI Package (.msi)</h3>
+            <div class="download-fileinfo">v0.14.0 · x64 · 5.38 MB</div>
+            <p class="download-card-desc">
+              Standard Windows Installer package with silent deployment switches for IT admins and enterprise fleets.
+            </p>
+            <a href="downloads/nova-explorer-installer.msi" download="nova-explorer-installer.msi" class="btn btn-secondary" id="btn-dl-msi">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              Download MSI (.msi)
+            </a>
+          </div>
+
+          <!-- Winget Command -->
+          <div class="download-card">
+            <span class="download-badge" style="background: rgba(6, 182, 212, 0.1); color: var(--accent-cyan);">Package Manager</span>
+            <h3 class="download-title">Windows Package Manager</h3>
+            <div class="download-fileinfo">winget install</div>
+            <p class="download-card-desc">
+              Install and update directly from PowerShell or Windows Terminal with zero prompt friction.
+            </p>
+            <button class="btn btn-secondary" id="btn-copy-winget" style="width: 100%;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              Copy winget Command
+            </button>
+          </div>
+        </div>
+
+        <div style="font-size: 0.84rem; color: var(--text-muted);">
+          System Requirements: Windows 10 (1903+) or Windows 11 · 64-bit Architecture
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- App-Based Modals (No native browser alerts/prompts) -->
+  <div class="app-modal-backdrop" id="app-modal-backdrop" role="dialog" aria-modal="true">
+    <div class="app-modal">
+      <div class="app-modal-header">
+        <h3 class="app-modal-title" id="modal-title">Notification</h3>
+        <button class="app-modal-close-btn" id="modal-close-btn" aria-label="Close dialog">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="app-modal-body" id="modal-body">
+        Message content goes here.
+      </div>
+      <div class="app-modal-footer">
+        <button class="btn btn-sm btn-primary" id="modal-confirm-btn">Dismiss</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">
+          <img src="assets/logo.svg" alt="Nova Explorer" width="22" height="22">
+          <span>Nova Explorer</span>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--text-muted);">
+          Crafted with Rust and React 19 for maximum speed and zero telemetry.
+        </p>
+      </div>
+
+      <ul class="footer-nav">
+        <li><a href="https://github.com/picwellwisher12pk/nova-explorer-app" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        <li><a href="https://github.com/picwellwisher12pk/nova-explorer-app/releases" target="_blank" rel="noopener noreferrer">Releases</a></li>
+        <li><a href="#" id="footer-cheatsheet-trigger">Keybindings</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Interactive JavaScript Logic -->
+  <script src="main.js"></script>
+</body>
+</html>

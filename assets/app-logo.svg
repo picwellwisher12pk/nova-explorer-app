@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="nova-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0891b2" />
+      <stop offset="100%" stop-color="#4f46e5" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#06b6d4" flood-opacity="0.3" />
+    </filter>
+  </defs>
+
+  <!-- App Rounded Base -->
+  <rect x="24" y="24" width="464" height="464" rx="110" ry="110" fill="url(#nova-grad)" filter="url(#shadow)" />
+
+  <!-- Subtle Rim Light -->
+  <rect x="25" y="25" width="462" height="462" rx="109" ry="109" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="3" />
+
+  <!-- Compass Icon (Lucide geometry perfectly scaled) -->
+  <g transform="translate(88, 88) scale(14)" fill="none" stroke="#ffffff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10" />
+    <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="rgba(255,255,255,0.15)" />
+  </g>
+</svg>
